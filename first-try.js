@@ -28,7 +28,7 @@ class BlockChain {
         return this.chain[this.chain.length - 1];
     }
     addBlock(newBlock) {
-        this.isChainValid;
+        this.isChainValid();
         newBlock.previousHash = this.getLatestBlock().hash;
         newBlock.hash = newBlock.calculateHash();
         this.chain.push(newBlock);
@@ -53,15 +53,15 @@ class BlockChain {
             for (let i = 1; i < this.chain.length; i++) {
                 if (this.chain[i].hash !== this.chain[i].calculateHash() || this.chain[i].previousHash !== this.chain[i - 1].hash) {
                     output = false;
-                    this.chain.splice(this.chain[i], 1);
+                    this.chain.splice(i, 1);
                     console.log("Chain Invalid, removed tampered block")
                     break;
                 }
             }
-            if (output = false) {
+            if (output === false) {
                 for (let i = 1; i < this.chain.length; i++) {
-                    this.previousHash = this.getLatestBlock().hash;
-                    this.chain[i].hash = this.chain[i].calculateHash;
+                    this.chain[i].previousHash = this.chain[i-1].hash;
+                    this.chain[i].hash = this.chain[i].calculateHash();
                 }
             } else {
                 console.log("Chain Valid");
@@ -83,11 +83,11 @@ fredCoin.addBlock(new Block(2, "03/03/2021", { amount: 10 }))
 // let hash1 = fredCoin.chain[2].hash
 
 
-fredCoin.chain[2].data = { amount: 1000 } //tampering data
 
 
 fredCoin.addBlock(new Block(3, "04/04/2021", { amount: 20 }))
 console.log("3");
+fredCoin.chain[2].data = { amount: 55 } //tampering data
 
 fredCoin.addBlock(new Block(4, "05/05/2021", { amount: 30 }))
 
